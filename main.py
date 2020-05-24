@@ -15,5 +15,5 @@ book_catalog.serialize_to_file(BOOK_CATALOG_FILEPATH)
 
 decoded_book_catalog = Book_Catalog.serialize_from_file(BOOK_CATALOG_FILEPATH)
 
+print(book_catalog)
 print(decoded_book_catalog)
-print(decoded_book_catalog.books)

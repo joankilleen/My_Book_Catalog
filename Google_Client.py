@@ -32,9 +32,9 @@ class Client:
 					 type=identifier["type"]
 					 if type=="ISBN_13": 
 						  isbn_13=identifier["identifier"]
-						  next_book=Book(title=title,author=author,isbn_13="isbn_13")
-						  print(f"{next_book.title} {isbn_13}")
-						  book_hits.append(next_book)
+						  next_book=Book(title=title,author=author,isbn_13=isbn_13)			 
+				 book_hits.append(next_book)
+				 #print(next_book)
 		books_to_return=Book_Catalog(books=book_hits)
 		print(len(books_to_return.books))
 		return books_to_return
