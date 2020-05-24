@@ -1,1 +1,1 @@
-"{\"books\": [{\"title\": \"Test1\", \"author\": \"Colum McCann\", \"isbn_13\": \"1234-17\", \"state\": \"want_to_read\"}, {\"title\": \"Test2\", \"author\": \"Colum McCann\", \"isbn_13\": \"1235-17\", \"state\": \"want_to_read\"}]}"
+"{\"books\": [{\"title\": \"Test1\", \"author\": \"Colum McCann\", \"isbn_13\": \"1234-17\", \"state\": 2}, {\"title\": \"Test2\", \"author\": \"Colum McCann\", \"isbn_13\": \"1235-17\", \"state\": 1}]}"
