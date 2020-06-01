@@ -2,26 +2,31 @@ from typing import List
 from Book import Book
 from Book import Book_Catalog
 from Book import Book_State
+from Command_Handler import Command_Handler
 from Google_Client import Client
 import json
-import re
+
+command=""
+google_hits = []
 
 BOOK_CATALOG_FILEPATH="resources/book_catalog.json"
-SEARCH_COMMAND_REGEXP=re.compile(r'search author=.*')
 SEARCH_COMMAND_PROMPT = "search author=<author name>"
+COMMAND_NOT_FOUND = f"Command not found {command}"
+QUIT = "QUIT"
 
-command = input(f"Input a command:\n{SEARCH_COMMAND_PROMPT}\n")
+while command.upper() != QUIT:
 
-search_command=SEARCH_COMMAND_REGEXP.findall(command)
-if len(search_command) != 0:
-    # Extract author
-    author=command.partition("=")
-    print(author[2])
+    command = input(f"Input a command:\n{SEARCH_COMMAND_PROMPT}\n")
+    command_handler=Command_Handler(command)
 
+    author=command_handler.search_extract_author()
 
-#response = Client.search_by_author(author)
-#google_hits=Client.get_english_titles(response)
-#print(google_hits)
+    if len(author) != 0:
+        response = Client.search_by_author(author)
+        google_hits=Client.get_english_titles(response)
+        print(google_hits)
+    else:
+       print(COMMAND_NOT_FOUND)
 
 
 #decoded_data = Book_Catalog.serialize_from_file(BOOK_CATALOG_FILEPATH)
