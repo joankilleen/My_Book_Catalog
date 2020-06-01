@@ -7,7 +7,8 @@ from Google_Client import Client
 import json
 
 command=""
-google_hits = []
+google_hits = Book_Catalog(books=[])
+
 
 BOOK_CATALOG_FILEPATH="resources/book_catalog.json"
 SEARCH_COMMAND_PROMPT = "search author=<author name>"
@@ -16,6 +17,8 @@ QUIT = "QUIT"
 
 while command.upper() != QUIT:
 
+    stored_catalog=Book_Catalog.serialize_from_file(BOOK_CATALOG_FILEPATH)
+
     command = input(f"Input a command:\n{SEARCH_COMMAND_PROMPT}\n")
     command_handler=Command_Handler(command)
 
@@ -23,7 +26,8 @@ while command.upper() != QUIT:
 
     if len(author) != 0:
         response = Client.search_by_author(author)
-        google_hits=Client.get_english_titles(response)
+        next_hits=Client.get_english_titles(response)
+        google_hits.add_catalog(next_hits)
         print(google_hits)
     else:
        print(COMMAND_NOT_FOUND)
@@ -36,4 +40,4 @@ while command.upper() != QUIT:
 #decoded_data.list_status(Book_State.WANT_TO_READ)
 
 #Save work before finishing 
-#book_catalog.serialize_to_file(BOOK_CATALOG_FILEPATH)
+book_catalog.serialize_to_file(BOOK_CATALOG_FILEPATH)

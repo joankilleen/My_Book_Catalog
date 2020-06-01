@@ -29,16 +29,7 @@ class Book_Catalog(object):
     def __init__(self, books: List[Book]):
         self.books = books
 
-    @classmethod
-    def from_json(cls, data: dict):
-        list_books = list(map(Book.from_json, data["books"]))
-        return cls(books)
-
-    # Serialize as Json and persist to file
-    def serialize_to_file(self, filepath):
-        json_object = json.dumps(self, default=lambda o: o.__dict__) 
-        with open(filepath, "w") as outfile: 
-            json.dump(json_object, outfile) 
+   
 
     #Print books of a certain status
     def list_status(self, book_state: Book_State): 
@@ -48,7 +39,23 @@ class Book_Catalog(object):
                 data.append(book)
         print(Book_Catalog(data))
 
+    #Merge tow catalogues
+    def add_catalog(self, catalog_to_add):
+        for book in catalog_to_add.books:
+            self.books.append(book)
+        return self
 
+
+    # Serialize as Json and persist to file
+    def serialize_to_file(self, filepath):
+        json_object = json.dumps(self, default=lambda o: o.__dict__) 
+        with open(filepath, "w") as outfile: 
+            json.dump(json_object, outfile) 
+
+    @classmethod
+    def from_json(cls, data: dict):
+        list_books = list(map(Book.from_json, data["books"]))
+        return cls(books) 
 
     # Read book catalog from file
     @staticmethod
