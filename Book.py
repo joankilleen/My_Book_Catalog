@@ -3,6 +3,11 @@ from enum import Enum
 
 import json
 
+class Book_State(str, Enum):
+    INIT='init'
+    WANT_TO_READ='want_to_read'
+    READ='read'
+    FAVOURITE='favourite'
 
 class Book:
      def __init__(self,title, author, isbn_13):
@@ -35,13 +40,34 @@ class Book_Catalog(object):
         with open(filepath, "w") as outfile: 
             json.dump(json_object, outfile) 
 
+    #Print books of a certain status
+    def list_status(self, book_state: Book_State): 
+        data = []
+        for book in self.books:
+            if book.state==book_state:
+                data.append(book)
+        print(Book_Catalog(data))
+
+
+
     # Read book catalog from file
     @staticmethod
     def serialize_from_file(filepath):
         with open(filepath, "r") as infile:
             json_object = json.load(infile)
-            book_catalog = Book_Catalog(**json.loads(json_object))
-            return book_catalog
+           
+            catalog = Book_Catalog(**json.loads(json_object))
+            books=catalog.books
+            book_data=[]
+             # This is still not really a catalog but a half way house json format. I don't know why!
+             # Convert to Book_Catalog
+            for item in books:
+                title= item["title"]
+                author=item["author"]
+                isbn_13=item["isbn_13"]
+                next_book=Book(title=title,author=author,isbn_13=isbn_13)	
+                book_data.append(next_book)   
+            return Book_Catalog(books=book_data)
 
     def __str__(self):
         str = ""
@@ -49,8 +75,4 @@ class Book_Catalog(object):
             str += book.__str__() + "\n"
         return str
 
-class Book_State(str, Enum):
-    INIT='init'
-    WANT_TO_READ='want_to_read'
-    READ='read'
-    FAVOURITE='favourite'
+
