@@ -24,20 +24,22 @@ class Book:
         return "{self.isbn_13} {self.title} {self.author} {self.state}".format(self=self)
 
 
-#List of books which can be serialized and deserializes as Json and written to file
+#List of books which can be serialized and deserialized as Json and written to file
 class Book_Catalog(object):
     def __init__(self, books: List[Book]):
         self.books = books
 
    
 
-    #Print books of a certain status
-    def list_status(self, book_state: Book_State): 
+    #Seach books of a certain status
+    def search_status(self, book_state=all): 
         data = []
+        if book_state == all:
+            return self
         for book in self.books:
             if book.state==book_state:
                 data.append(book)
-        print(Book_Catalog(data))
+        return Book_Catalog(data)
 
     #Merge tow catalogues
     def add_catalog(self, catalog_to_add):
