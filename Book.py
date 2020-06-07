@@ -32,16 +32,24 @@ class Book_Catalog(object):
    
 
     #Seach books of a certain status
-    def search_status(self, book_state=all): 
+    def search_status(self, book_state='all'): 
         data = []
-        if book_state == all:
-            return self
+        if book_state == 'all':
+            return Book_Catalog(self.books)
         for book in self.books:
             if book.state==book_state:
                 data.append(book)
         return Book_Catalog(data)
 
-    #Merge tow catalogues
+    #Seach books of a certain status
+    def search_isbn(self, isbn): 
+        data = []      
+        for book in self.books:
+            if book.isbn_13==isbn:
+                data.append(book)
+        return Book_Catalog(data)
+
+    #Merge two catalogues
     def add_catalog(self, catalog_to_add):
         for book in catalog_to_add.books:
             self.books.append(book)
