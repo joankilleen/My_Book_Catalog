@@ -26,9 +26,10 @@ class Book:
 
 #List of books which can be serialized and deserialized as Json and written to file
 class Book_Catalog(object):
+    
     def __init__(self, books: List[Book]):
-        self.books = books
-
+        self.books = books  
+        
    
 
     #Seach books of a certain status
@@ -41,7 +42,7 @@ class Book_Catalog(object):
                 data.append(book)
         return Book_Catalog(data)
 
-    #Seach books of a certain status
+    #Seach book catalog for an isbn
     def search_isbn(self, isbn): 
         data = []      
         for book in self.books:
@@ -52,8 +53,18 @@ class Book_Catalog(object):
     #Merge two catalogues
     def add_catalog(self, catalog_to_add):
         for book in catalog_to_add.books:
-            self.books.append(book)
+            self.add_if_not_duplicate(book)
         return self
+
+    #Add a book if not a duplicate
+    def add_if_not_duplicate(self, new_book: Book):
+        is_duplicate = bool(False)
+        for book in self.books:
+            if new_book.isbn_13 == book.isbn_13:
+                is_duplicate = bool(True)
+                break
+        if is_duplicate == bool(False):
+            self.books.append(new_book)
 
 
     # Serialize as Json and persist to file
