@@ -10,9 +10,9 @@ command=""
 google_hits = Book_Catalog(books=[])
 
 BOOK_CATALOG_FILEPATH="resources/book_catalog.json"
-SEARCH_COMMAND_PROMPT = "search author=<author name>"
-LIST_COMMAND_PROMPT = "list status=<book status/all>"
-ADD_HIT_COMMAND_PROMPT = "add_hit isbn=<isbn_13>"
+SEARCH_COMMAND_PROMPT = "search_hit author=<author name>"
+LIST_COMMAND_PROMPT = "list_catalog status=<book status/all>"
+ADD_HIT_COMMAND_PROMPT = "move_hit_catalog isbn=<isbn_13>"
 COMMAND_NOT_FOUND = f"Command not found {command}"
 QUIT = "quit"
 
@@ -49,7 +49,8 @@ while command.lower() != QUIT:
            stored_catalog.add_catalog(found)
            stored_catalog.serialize_to_file(BOOK_CATALOG_FILEPATH)
 
-
+    elif command.lower() == QUIT:
+        pass
     else:
        print(COMMAND_NOT_FOUND)
 

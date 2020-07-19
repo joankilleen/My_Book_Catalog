@@ -1,8 +1,8 @@
 import re
 
-SEARCH_COMMAND_AUTHOR_REGEXP=re.compile(r'search author=.*')
-LIST_COMMAND_STATUS_REGEXP=re.compile(r'list status=.*')
-ADD_HIT_COMMAND_REGEXP=re.compile(r'add_hit isbn=.*')
+SEARCH_COMMAND_AUTHOR_REGEXP=re.compile(r'search_hit author=.*')
+LIST_COMMAND_STATUS_REGEXP=re.compile(r'list_catalog status=.*')
+ADD_HIT_COMMAND_REGEXP=re.compile(r'move_hit_catalog isbn=.*')
 
 class Command_Handler:
     def __init__(self, command):
