@@ -3,6 +3,7 @@ import re
 SEARCH_COMMAND_AUTHOR_REGEXP=re.compile(r'search_hit author=.*')
 LIST_COMMAND_STATUS_REGEXP=re.compile(r'list_catalog status=.*')
 ADD_HIT_COMMAND_REGEXP=re.compile(r'move_hit_catalog isbn=.*')
+DELETE_CATALOG_REGEXP=re.compile(r'delete_catalog isbn=.*')
 
 class Command_Handler:
     def __init__(self, command):
@@ -30,12 +31,20 @@ class Command_Handler:
         add_hit_params = []
         add_hit_command=ADD_HIT_COMMAND_REGEXP.findall(self.command)
         if len(add_hit_command) != 0:
-            #Extract isbn and status
+            #Extract isbn
             isbn =self.command.partition("=")[2]
             print(f"isbn {isbn}")            
             add_hit_params.append(isbn.strip())
             print(f"add_hit_params: {add_hit_params}")
         return add_hit_params
+
+    def delete_extract_isbn(self):
+        delete_isbn=DELETE_CATALOG_REGEXP.findall(self.command)
+        isbn=''
+        if len(delete_isbn) != 0:
+            #Extract isbn 
+            isbn =self.command.partition("=")[2]      
+        return isbn
         
 
 

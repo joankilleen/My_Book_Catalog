@@ -66,6 +66,14 @@ class Book_Catalog(object):
         if is_duplicate == bool(False):
             self.books.append(new_book)
 
+    #Delete a book from the catalog
+    def delete(self, delete_book: Book):
+        for book in list(self.books):
+            if book.isbn_13==delete_book.isbn_13:
+                self.books.remove(book)
+        return self
+
+
 
     # Serialize as Json and persist to file
     def serialize_to_file(self, filepath):

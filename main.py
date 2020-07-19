@@ -12,7 +12,8 @@ google_hits = Book_Catalog(books=[])
 BOOK_CATALOG_FILEPATH="resources/book_catalog.json"
 SEARCH_COMMAND_PROMPT = "search_hit author=<author name>"
 LIST_COMMAND_PROMPT = "list_catalog status=<book status/all>"
-ADD_HIT_COMMAND_PROMPT = "move_hit_catalog isbn=<isbn_13>"
+MOVE_HIT_COMMAND_PROMPT = "move_hit_catalog isbn=<isbn_13>"
+DELETE_CATALOG_COMMAND_PROMPT = "delete_catalog isbn=<isbn_13>"
 COMMAND_NOT_FOUND = f"Command not found {command}"
 QUIT = "quit"
 
@@ -20,12 +21,13 @@ while command.lower() != QUIT:
 
     stored_catalog=Book_Catalog.serialize_from_file(BOOK_CATALOG_FILEPATH)
 
-    command = input(f"Input a command:\n{SEARCH_COMMAND_PROMPT}\n{LIST_COMMAND_PROMPT}\n{ADD_HIT_COMMAND_PROMPT}\n")
+    command = input(f"Input a command:\n{SEARCH_COMMAND_PROMPT}\n{MOVE_HIT_COMMAND_PROMPT}\n{LIST_COMMAND_PROMPT}\n{DELETE_CATALOG_COMMAND_PROMPT}\n")
     command_handler=Command_Handler(command)
 
     author = command_handler.search_extract_author()
     status = command_handler.list_extract_status()
     add_hit_params = command_handler.add_hit_extract_isbn()
+    delete_isbn=command_handler.delete_extract_isbn()
 
     if len(author) != 0:
         response = Client.search_by_author(author)
@@ -45,21 +47,24 @@ while command.lower() != QUIT:
             HIT_NOT_FOUND = f"Hit not found in google hits {isbn}"
             print(HIT_NOT_FOUND) 
         else:
-           print(found)
            stored_catalog.add_catalog(found)
            stored_catalog.serialize_to_file(BOOK_CATALOG_FILEPATH)
+
+    elif len(delete_isbn) != 0:
+        found = stored_catalog.search_isbn(delete_isbn)
+        if len(found.books) == 0:
+            HIT_NOT_FOUND = f"Hit not found in stored catalog {delete_isbn}"
+            print(HIT_NOT_FOUND) 
+        else:
+            stored_catalog = stored_catalog.delete(found.books[0])
+            stored_catalog.serialize_to_file(BOOK_CATALOG_FILEPATH)
+            print(stored_catalog)
 
     elif command.lower() == QUIT:
         pass
     else:
        print(COMMAND_NOT_FOUND)
 
-
-
-
-
-
-#decoded_data.list_status(Book_State.WANT_TO_READ)
 
 #Save work before finishing 
 stored_catalog.serialize_to_file(BOOK_CATALOG_FILEPATH)
