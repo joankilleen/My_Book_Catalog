@@ -73,6 +73,16 @@ class Book_Catalog(object):
                 self.books.remove(book)
         return self
 
+    def update_book(self, update:Book):
+        for book in self.books:
+            if book.isbn_13==update.isbn_13:
+                self.books.remove(book)
+                self.books.append(update)
+                print(f"new status {update}")
+        return Book_Catalog(self.books)
+        
+
+
 
 
     # Serialize as Json and persist to file
