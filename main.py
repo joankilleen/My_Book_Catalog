@@ -1,7 +1,6 @@
 from typing import List
 from Book import Book
 from Book import Book_Catalog
-from Book import Book_State
 from Command_Handler import Command_Handler
 from Google_Client import Client
 import json
@@ -71,9 +70,11 @@ while command.lower() != QUIT:
             print(HIT_NOT_FOUND) 
         else:
             update = found.books[0]
-            update.status=status
+            print(f"Book found: {update}")
+            setattr(update, 'state', status)
             print(f"Before update: {update}")
             stored_catalog = stored_catalog.update_book(update)
+            print(stored_catalog)
             stored_catalog.serialize_to_file(BOOK_CATALOG_FILEPATH)
             print(stored_catalog)
 
